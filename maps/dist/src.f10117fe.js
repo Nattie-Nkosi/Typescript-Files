@@ -117,7 +117,42 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/faker/lib/fake.js":[function(require,module,exports) {
+})({"src/CustomMap.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CustomMap = void 0;
+
+var CustomMap =
+/** @class */
+function () {
+  function CustomMap(divId) {
+    this.googleMaps = new google.maps.Map(document.querySelector(divId), {
+      zoom: 2,
+      center: {
+        lat: 0,
+        lng: 0
+      }
+    });
+  }
+
+  CustomMap.prototype.addMarker = function (mappable) {
+    new google.maps.Marker({
+      map: this.googleMaps,
+      position: {
+        lat: mappable.location.lat,
+        lng: mappable.location.lng
+      }
+    });
+  };
+
+  return CustomMap;
+}();
+
+exports.CustomMap = CustomMap;
+},{}],"node_modules/faker/lib/fake.js":[function(require,module,exports) {
 /*
   fake.js - generator method for combining faker methods based on string input
 
@@ -100434,7 +100469,7 @@ function () {
     this.name = faker_1.default.name.firstName();
     this.location = {
       lat: parseFloat(faker_1.default.address.latitude()),
-      long: parseFloat(faker_1.default.address.longitude())
+      lng: parseFloat(faker_1.default.address.longitude())
     };
   }
 
@@ -100466,7 +100501,7 @@ function () {
     this.catchPhrase = faker_1.default.company.catchPhraseNoun();
     this.location = {
       lat: parseFloat(faker_1.default.address.latitude()),
-      long: parseFloat(faker_1.default.address.longitude())
+      lng: parseFloat(faker_1.default.address.longitude())
     };
   }
 
@@ -100481,15 +100516,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var CustomMap_1 = require("./CustomMap");
+
 var User_1 = require("./User");
 
 var Company_1 = require("./Company");
 
-var user = new User_1.User();
+var customMap = new CustomMap_1.CustomMap('#map');
 var company = new Company_1.Company();
-console.log(user);
-console.log(company);
-},{"./User":"src/User.ts","./Company":"src/Company.ts"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var user = new User_1.User();
+customMap.addMarker(user);
+customMap.addMarker(company);
+},{"./CustomMap":"src/CustomMap.ts","./User":"src/User.ts","./Company":"src/Company.ts"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -100517,7 +100555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49570" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62757" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
