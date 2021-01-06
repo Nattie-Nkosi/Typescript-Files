@@ -139,12 +139,20 @@ function () {
   }
 
   CustomMap.prototype.addMarker = function (mappable) {
-    new google.maps.Marker({
+    var _this = this;
+
+    var marker = new google.maps.Marker({
       map: this.googleMaps,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng
       }
+    });
+    marker.addListener('click', function () {
+      var infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent()
+      });
+      infoWindow.open(_this.googleMaps, marker);
     });
   };
 
@@ -100473,6 +100481,10 @@ function () {
     };
   }
 
+  User.prototype.markerContent = function () {
+    return "User name " + this.name;
+  };
+
   return User;
 }();
 
@@ -100504,6 +100516,10 @@ function () {
       lng: parseFloat(faker_1.default.address.longitude())
     };
   }
+
+  Company.prototype.markerContent = function () {
+    return "\n        <div>\n          <h1>" + this.companyName + "</h1>\n          <h2>" + this.catchPhrase + "</h2>\n        </div>\n      ";
+  };
 
   return Company;
 }();
