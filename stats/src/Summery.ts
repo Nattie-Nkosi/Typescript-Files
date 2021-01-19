@@ -1,5 +1,6 @@
 import { MatchData } from './MatchData';
-import { MatchResult } from './MatchResult';
+import { WinsAnalysis } from './analyzers/WinsAnalysis';
+import { HtmlReports } from './reportTargets/HtmlReports';
 
 export interface Analyzer {
   run(matches: MatchData[]): string;
@@ -10,10 +11,14 @@ export interface OutputTarget {
 }
 
 export class Summery {
-  constructor(
-    public analyzer: Analyzer,
-    public outputTarget: OutputTarget
-  ) {}
+  static winsAnalysisWithHtmlReport(team: string): Summery{
+    return new Summery(
+      new WinsAnalysis(team),
+      new HtmlReports('report.html')
+    );
+  }
+
+  constructor(public analyzer: Analyzer, public outputTarget: OutputTarget) {}
 
   buildAndPrintReport(matches: MatchData[]): void {
     const output = this.analyzer.run(matches);
